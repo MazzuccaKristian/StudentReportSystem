@@ -1,6 +1,6 @@
 #include "SocketHandler.h"
 
-int SocketSetup(){
+int ClientSocketSetup(){
     int newSocket;
     struct sockaddr_in destinationAddres;
     // socket creation: IPv4, UDP, IP protocol
@@ -22,4 +22,26 @@ int SocketSetup(){
         exit(EXIT_FAILURE);
     }
     return newSocket;
+}
+
+int ServerSocketSetup(){
+    int serverSocket;
+    struct sockaddr_in serverAddress;
+    // Socket creation: IPv4, UDP, IP protocol
+    if((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+        perror("SOCKET CREATION");
+        exit(EXIT_FAILURE);
+    }
+    serverAddress.sin_addr.s_addr = INADDR_ANY;
+    serverAddress.sin_family = AF_INET;
+    serverAddress.sin_port = htons(PORT);
+    if(bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0){
+        perror("BINDING");
+        exit(EXIT_FAILURE);
+    }
+    if(listen(serverSocket, CONNECTIONS) != 0){
+        perror("LISTENING");
+        exit(EXIT_FAILURE);
+    }
+    return serverSocket;
 }
