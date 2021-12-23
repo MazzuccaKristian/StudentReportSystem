@@ -6,17 +6,24 @@ int main(){
     int userOption;
     int clientSocket;
 
-    clientSocket = SocketSetup();
+    // clientSocket = ClientSocketSetup();
+    clientSocket = ClientSocketSetup();
 
     while(isRunning){
         if(!isLoggedIn){
             // Here if the user isn't logged in.
             string user = LoginHandler();
-            //TODO: at this point, "user" must be sent to server for authentication.
+            if(send(clientSocket, user.c_str(), user.length(), 0) == -1){
+                // Fail on "send"
+                perror("SEND");
+            }else{
+                // TODO: client-side receives data from server after login.
+            }
         }else{
             //TODO: starting now: show main menu; get user's choice; run related option.
         }
     }
+    return 0;
 }
 
 string LoginHandler(){
@@ -26,6 +33,6 @@ string LoginHandler(){
     getline(cin, username);
     cout << "Enter your password: ";
     getline(cin, password);
-    userData = username + "|" + password;
+    userData = "x|" + username + "|" + password;
     return userData;
 }
