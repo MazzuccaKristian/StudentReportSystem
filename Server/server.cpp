@@ -2,9 +2,24 @@
 
 int main(){
     bool isRunning = true;
+    int serverSocket, newSocket;
+    struct sockaddr_storage serverStorage;
+    socklen_t addr_size;
+
+    char socketBuffer[BUFFER_SIZE] = {0};
 
     ArchiveSetup();
 
+    serverSocket = ServerSocketSetup();
+
+    addr_size = sizeof(serverStorage);
+    newSocket = accept(serverSocket, (struct sockaddr*)&serverStorage, &addr_size);
+
+    if(recv(newSocket, socketBuffer, BUFFER_SIZE, 0) < 0){
+        perror("RECV");
+    }else{
+
+    }
 }
 
 void ArchiveSetup(){
