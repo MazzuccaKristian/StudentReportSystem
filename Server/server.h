@@ -9,7 +9,7 @@ using std::ofstream;
 using std::string;
 
 #define RECORDS "records.txt"
-#define BUFFER_SIZE 10
+#define BUFFER_SIZE 20
 
 void ArchiveSetup();
 
