@@ -26,12 +26,18 @@ int main()
         {
             char option = socketBuffer[0];
             if(option == 'x'){
+                string serverResponse;
                 string convertedBuffer = socketBuffer;
                 string loginData = convertedBuffer.substr(convertedBuffer.find_first_of("|") + 1);
                 if(LoginUser(loginData)){
                     // Here if the user is in archive. Login OK
+                    serverResponse = "true";
                 }else{
                     // Here if the user entered wrong credentials. Login must be repeated.
+                    serverResponse = "false";
+                }
+                if(send(newSocket, serverResponse.c_str(), sizeof(serverResponse.c_str()), 0) < 0){
+                    perror("SEND");
                 }
             }
         }
