@@ -5,6 +5,7 @@ int main(){
     bool isLoggedIn = false;
     int userOption;
     int clientSocket;
+    char responseFromServer[BUFFER_SIZE] = {0};
 
     // clientSocket = ClientSocketSetup();
     clientSocket = ClientSocketSetup();
@@ -17,10 +18,18 @@ int main(){
                 // Fail on "send"
                 perror("SEND");
             }else{
-                // TODO: client-side receives data from server after login.
+                if(recv(clientSocket, responseFromServer, BUFFER_SIZE, 0) < 0){
+                    perror("RECV");
+                }else{
+                    if(strcmp(responseFromServer, "true") == 0){
+                        // Login OK
+                        isLoggedIn = true;
+                    }
+                }
             }
         }else{
             //TODO: starting now: show main menu; get user's choice; run related option.
+            
         }
     }
     return 0;
