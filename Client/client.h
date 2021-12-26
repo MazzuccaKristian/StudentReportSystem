@@ -13,3 +13,7 @@ using std::cin;
 using std::getline;
 
 string LoginHandler();
+
+void ShowMainMenu();
+
+int GetUserChoice();
